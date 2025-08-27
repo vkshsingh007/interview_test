@@ -1,0 +1,108 @@
+<?php
+session_start();
+if(isset($_SESSION['user'])) {
+    header("Location: dashboard.php");
+    exit;
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Register</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">DemoApp</a>
+
+        <!-- Toggler button (hamburger) -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible Menu -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <!-- Home -->
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html"
+                >Home</a
+              >
+            </li>
+            <!-- Login -->
+            <li class="nav-item">
+              <a class="nav-link" href="./index.html">Register</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Form -->
+    <div class="container mt-5">
+      <h2 class="mb-3">Login</h2>
+      <form id="loginForm">
+        <div class="mb-3">
+          <label>Email</label>
+          <input type="email" name="email" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            class="form-control"
+            required
+            minlength="6"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+      <div id="result" class="mt-3"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer
+      class="bg-dark text-white text-center p-3 mt-5"
+      style="position: fixed; bottom: 0; left: 0; width: 100%"
+    >
+      © 2025 DemoApp
+    </footer>
+
+    <script>
+      // AJAX form submit
+      $("#loginForm").submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+          url: "login.php",
+          type: "POST",
+          data: $(this).serialize(),
+          success: function (response) {
+            console.log(response, "vikash");
+            if (response.trim() === "success") {
+              window.location.href = "dashboard.php";
+            } else {
+              $("#result").html(response);
+            }
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
